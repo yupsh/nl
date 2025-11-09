@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strings"
 
-	yup "github.com/gloo-foo/framework"
+	gloo "github.com/gloo-foo/framework"
 )
 
-type command yup.Inputs[yup.File, flags]
+type command gloo.Inputs[gloo.File, flags]
 
-func Nl(parameters ...any) yup.Command {
-	cmd := command(yup.Initialize[yup.File, flags](parameters...))
+func Nl(parameters ...any) gloo.Command {
+	cmd := command(gloo.Initialize[gloo.File, flags](parameters...))
 	if cmd.Flags.NumberSeparator == "" {
 		cmd.Flags.NumberSeparator = "\t"
 	}
@@ -26,10 +26,10 @@ func Nl(parameters ...any) yup.Command {
 	return cmd
 }
 
-func (p command) Executor() yup.CommandExecutor {
+func (p command) Executor() gloo.CommandExecutor {
 	currentNumber := int(p.Flags.StartNumber)
 
-	return yup.StatefulLineTransform(func(lineNum int64, line string) (string, bool) {
+	return gloo.StatefulLineTransform(func(lineNum int64, line string) (string, bool) {
 		// Determine numbering style (using body numbering for simplicity)
 		style := string(p.Flags.BodyNumbering)
 		if style == "" {
